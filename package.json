@@ -1,0 +1,16 @@
+{
+  "name": "mqr-doc",
+  "version": "1.0.0",
+  "description": "茉莉QQ机器人文档",
+  "main": "index.js",
+  "repository": "https://gitee.com/molicloud/mqr",
+  "author": "冬天的秘密",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "vuepress": "^1.7.1"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  }
+}
