@@ -1,8 +1,8 @@
 ---
 home: true
-heroImage: /hero.png
+heroImage: /hero.jpg
 heroText: 茉莉QQ机器人
-tagline: 开始机器人的全新体验
+tagline: 
 actionText: 快速上手 →
 actionLink: /zh/guide/
 features:
