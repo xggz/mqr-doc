@@ -4,7 +4,7 @@ heroImage: /hero.jpg
 heroText: 茉莉QQ机器人
 tagline: 
 actionText: 快速上手 →
-actionLink: /zh/guide/
+actionLink: /guide/
 features:
 - title: 功能强大
   details: 集群管理、群娱乐和工具为一体，支持QQ多种事件和消息格式的处理。
