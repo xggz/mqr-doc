@@ -8,7 +8,7 @@ MQR 需要 JDK = 1.8、Mysql >= 5.7、Lombok
 
    推荐使用git clone的方式获取源码，可持续更新最新代码：
 
-   ``` git
+   ``` bash
    git clone https://gitee.com/molicloud/mqr.git
    ```
 
@@ -21,12 +21,12 @@ MQR 需要 JDK = 1.8、Mysql >= 5.7、Lombok
    在数据中执行 `databases` 文件夹下的 `mqr.sql` 文件（创建数据库、相关数据表和管理账号），然后创建第2步配置的数据库用户并授权。
 
    Mysql5.7版本创建用户并授权语句：
-   ``` mysql
+   ``` sql
    grant all on `mqr`.* to 'mqr'@'%' identified by 'mqr#Xxx001' with grant option;
    ```
 
    Mysql8版本创建用户并授权语句：
-   ``` mysql
+   ``` sql
    create user 'mqr'@'%' identified by 'mqr#Xxx001';
    grant all privileges on `mqr`.* to 'mqr'@'%' with grant option;
    ```

@@ -1,7 +1,7 @@
 # 插件示例
 本文将列举几种通用的插件实现类，基本可实现大部分需求。
 
-## 监听所有消息的插件
+## 监听所有消息的插件钩子
 ``` java
 package com.molicloud.mqr.plugin.adblock;
 
@@ -58,16 +58,16 @@ public class AdblockPluginExecutor implements PluginExecutor {
 ```
 
 ::: tip
-监听所有消息的插件，只要 `listeningAllMessage` 字段设置为true就可以。
+监听所有消息的插件钩子，只要 `listeningAllMessage` 字段设置为true就可以。
 
-此类型插件，不需要事件消息中触发关键字，即可捕获所有自定义的 `robotEvents` 事件；
+此类型插件钩子，不需要事件消息中触发关键字，即可捕获所有自定义的 `robotEvents` 事件；
 
-例如本插件捕获所有群消息和好友消息，然后判断消息中是否包含 "日赚", "月赚", "招收", "招商" 这些关键字，如果包含这些关键字，则返回处理结果，否则不处理，交给下一个插件处理。
+例如本插件的钩子捕获所有群消息和好友消息，然后判断消息中是否包含 "日赚", "月赚", "招收", "招商" 这些关键字，如果包含这些关键字，则返回处理结果，否则不处理，交给下一个插件钩子处理。
 
-注意，消息中不包含"日赚", "月赚", "招收", "招商" 这些关键字，也会触发插件钩子，进入插件处理，只不过是当消息包含这些关键字时返回处理警告，不包含则交给下一个插件处理。
+注意，消息中不包含"日赚", "月赚", "招收", "招商" 这些关键字，也会触发插件钩子，进入插件处理，只不过是当消息包含这些关键字时返回处理警告，不包含则交给下一个插件钩子处理。
 :::
 
-## 关键字触发的常规插件
+## 关键字触发的常规插件钩子
 ``` java
 package com.molicloud.mqr.plugin.joke;
 
@@ -118,10 +118,10 @@ public class JokePluginExecutor implements PluginExecutor {
 ```
 
 ::: tip
-此类插件，只要事件消息是自定义的 `keywords` 字段的某一个，并且 `robotEvents` 事件类型也符合，那么就会触发插件钩子。
+此类插件钩子，只要事件消息是自定义的 `keywords` 字段的某一个，并且 `robotEvents` 事件类型也符合，那么就会触发插件钩子。
 :::
 
-## 默认插件
+## 默认插件钩子
 ``` java
 package com.molicloud.mqr.plugin.aireply;
 
@@ -169,10 +169,10 @@ public class AiReplyPluginExecutor implements PluginExecutor {
 ```
 
 ::: tip
-默认插件，需要设置属性 `defaulted` 为true，默认插件既不会全局捕获消息，也不会通过关键字触发，只有当前两者都没有处理消息时，然后插件系统就会根据 `robotEvents` 事件和排序字段 `order`来处理所有的默认插件钩子。
+默认插件钩子，需要设置属性 `defaulted` 为true，默认插件钩子既不会全局捕获消息，也不会通过关键字触发，只有当前两者都没有处理消息时，然后插件系统就会根据 `robotEvents` 事件和排序字段 `order`来处理所有的默认插件钩子。
 :::
 
-## 插件持有事件消息
+## 插件钩子持有事件消息
 ``` java
 package com.molicloud.mqr.plugin.test;
 
@@ -215,5 +215,5 @@ public class TestPluginExecutor implements PluginExecutor {
 ```
 
 ::: tip
-主动持有事件消息，只要消息发送者第一次发送消息被捕获之后，在返回的 `PluginResult` 中把 `hold` 设置为true就可以了，然后这个消息发送者的下一条消息无论发送的是什么，都会优先被此插件钩子触发，享有最先处理的权利。
+主动持有事件消息，只要消息发送者第一次发送消息被捕获之后，在返回的 `PluginResult` 中把 `hold` 设置为true就可以了，然后这个消息发送者的下一条消息无论发送的是什么，都会优先被此插件钩子触发，享有最先处理的权利（除了监听所有消息的插件钩子）。
 :::
