@@ -66,6 +66,7 @@ public class TestPluginExecutor implements PluginExecutor {
 | ------------- |:-------------:| ----- | 
 | processed      | boolean | 事件是否已处理，设置为true，插件钩子的结果才会被执行，否则表示此插件钩子不作任何处理，并且此事件接着会被其它插件钩子处理 |
 | hold      | boolean | 是否持有事件消息，设置为 true，那么这个发消息的人，下次不管发的什么消息，都会优先被当前插件钩子处理（除了监听所有消息的插件钩子） |
+| action | Action | 插件动作（禁言/解除禁言/踢人等等），具体的各种动作可以参考 `mqr-common` 模块 `com.molicloud.mqr.common.plugin.action` 包下的类 |
 | data | 泛型 | 返回的消息体，此数据会直接被机器人当作消息发送出去，可以是字符串，也可以是 `mqr-common` 模块 `com.molicloud.mqr.common.plugin.message` 包下的类 |
 
 ::: warning 注意

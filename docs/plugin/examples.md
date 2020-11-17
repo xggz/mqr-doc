@@ -217,3 +217,62 @@ public class TestPluginExecutor implements PluginExecutor {
 ::: tip
 主动持有事件消息，只要消息发送者第一次发送消息被捕获之后，在返回的 `PluginResult` 中把 `hold` 设置为true就可以了，然后这个消息发送者的下一条消息无论发送的是什么，都会优先被此插件钩子触发，享有最先处理的权利（除了监听所有消息的插件钩子）。
 :::
+
+## 群管功能示例
+``` java
+package com.molicloud.mqr.plugin.adblock;
+
+import com.molicloud.mqr.common.plugin.PluginExecutor;
+import com.molicloud.mqr.common.plugin.PluginParam;
+import com.molicloud.mqr.common.plugin.PluginResult;
+import com.molicloud.mqr.common.plugin.annotation.PHook;
+import com.molicloud.mqr.common.plugin.enums.RobotEventEnum;
+import com.molicloud.mqr.common.plugin.message.Ats;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+/**
+ * 广告/违法信息检测插件
+ *
+ * 监听所有消息的插件示例
+ *
+ * @author feitao yyimba@qq.com
+ * @since 2020/11/9 5:38 下午
+ */
+@Slf4j
+@Component
+public class AdblockPluginExecutor implements PluginExecutor {
+
+    public static final String[] adKeywords = new String[]{ "日赚", "月赚", "招收", "招商" };
+
+    private static final String warnContent = "请勿发送广告或违法信息";
+
+    @PHook(name = "Adblock",
+            listeningAllMessage = true,
+            robotEvents = { RobotEventEnum.FRIEND_MSG, RobotEventEnum.GROUP_MSG })
+    public PluginResult messageHandler(PluginParam pluginParam) {
+        PluginResult pluginResult = new PluginResult();
+        Object message = pluginParam.getData();
+        if (message instanceof String) {
+            if (Arrays.stream(adKeywords).anyMatch(keyword -> String.valueOf(message).contains(keyword))) {
+                pluginResult.setProcessed(true);
+                if (RobotEventEnum.GROUP_MSG.equals(pluginParam.getRobotEventEnum())) {
+                    Ats ats = new Ats();
+                    ats.setMids(Arrays.asList(pluginParam.getFrom()));
+                    ats.setContent(warnContent);
+                    // @消息发送者
+                    pluginResult.setData(ats);
+                    // 然后禁言此消息发送者10秒钟（QQ最低显示单位为1分钟，但不影响实际的功能）
+                    pluginResult.setAction(new MuteAction(Arrays.asList(pluginParam.getFrom()), 10));
+                } else {
+                    pluginResult.setData(warnContent);
+                }
+            }
+        }
+
+        return pluginResult;
+    }
+}
+```
