@@ -1,7 +1,7 @@
 # 快速上手
 
-::: warning 前提条件（暂时的）
-MQR 需要 JDK = 1.8、Mysql >= 5.7、Lombok
+::: warning 开发前提条件
+MQR 需要 JDK = 1.8、Lombok
 :::
 
 1. 下载或clone源代码到本地
@@ -12,26 +12,7 @@ MQR 需要 JDK = 1.8、Mysql >= 5.7、Lombok
    git clone https://gitee.com/molicloud/mqr.git
    ```
 
-2. 更改配置文件
-
-   找到 `mqr-rest` 模块的配置文件 `application.yml`，修改数据库连接配置（或使用默认的配置也可）。
-
-3. 初始化数据库
-
-   在数据中执行 `databases` 文件夹下的 `mqr.sql` 文件（创建数据库、相关数据表和管理账号），然后创建第2步配置的数据库用户并授权。
-
-   Mysql5.7版本创建用户并授权语句：
-   ``` sql
-   grant all on `mqr`.* to 'mqr'@'%' identified by 'mqr#Xxx001' with grant option;
-   ```
-
-   Mysql8版本创建用户并授权语句：
-   ``` sql
-   create user 'mqr'@'%' identified by 'mqr#Xxx001';
-   grant all privileges on `mqr`.* to 'mqr'@'%' with grant option;
-   ```
-
-4. 运行主程序并使机器人上线
+2. 运行主程序并使机器人上线
 
    运行 `mqr-rest` 模块的 `RobotApplication`
    

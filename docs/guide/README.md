@@ -6,7 +6,7 @@
 :::
 
 ## 程序架构/设计
-`MQR` 使用Java语言开发，目前技术栈：Spring Boot + JWT + Mybatis Plus + Mysql（后续会兼容多版本数据库），查看和运行源码的 `IDE` 需安装 `lombok` 插件。
+`MQR` 使用Java语言开发，目前技术栈：Spring Boot + JWT + Mybatis Plus + Sqlite，查看和运行源码的 `IDE` 需安装 `lombok` 插件。
 
 ## 曾经/现在
 最早的茉莉QQ机器人是使用的PHP语言开发，采用 `Smart QQ` 的Web协议实现的QQ机器人应用，因为腾讯对WebQQ的支持逐年下降，直至关闭WebQQ，最后茉莉QQ机器人也不了了之。

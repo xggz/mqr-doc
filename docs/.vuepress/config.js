@@ -18,11 +18,15 @@ module.exports = {
                         path: '/guide/'
                     },
                     {
+                        title: '下载运行',
+                        path: '/guide/download'
+                    },
+                    {
                         title: '目录结构',
                         path: '/guide/directory-structure'
                     },
                     {
-                        title: '快速上手',
+                        title: '开发运行',
                         path: '/guide/get-started'
                     }
                 ]
