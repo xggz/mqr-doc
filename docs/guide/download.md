@@ -1,29 +1,38 @@
-# 下载运行
+# 打包程序
+直接使用`maven`的`package`命令打包，然后找到`mqr-rest-xxx.jar`的jar包，一般在`mqr-rest`模块的`target`目录。
 
-## windows
-下载地址：[https://pan.baidu.com/s/1uc4n4RcH8vwYqBa29M4qnA](https://pan.baidu.com/s/1uc4n4RcH8vwYqBa29M4qnA)
+::: tip
+默认的打包方式，jar包里面只包含主程序代码，是不能直接运行的
+:::
 
-提取码：8rvn
-
-下载后解压文件，进入mqr目录，双击mqr.exe运行
-
-
-## 其它平台
-其它平台目前只提供可运行的jar包，需要java环境，并使用java命令启动程序（当然windows也可以使用此方式运行）。
-
-下载地址：[https://pan.baidu.com/s/1s5iycwWXzp68i3SdPbiwbw](https://pan.baidu.com/s/1s5iycwWXzp68i3SdPbiwbw)
-
-提取码：45in
-
-简单启动命令示例：
-
-``` bash
-java -jar mqr.jar
+想全量打包（打包出可以直接运行的jar），得在`mqr-rest`的`pom.xml`文件中找到如下代码块并删除它，然后使用`maven`的`package`打包：
+``` xml
+<configuration>
+    <mainClass>com.molicloud.mqr.RobotApplication</mainClass>
+    <layout>ZIP</layout>
+    <includes>
+        <include>
+            <groupId>nothing</groupId>
+            <artifactId>nothing</artifactId>
+        </include>
+    </includes>
+</configuration>
 ```
 
-Linux后台静默运行，并输出日志
+## 运行程序
+1、把打包好的主程序`mqr-rest-xxx.jar`放入一个文件夹
+
+2、把项目的db目录也复制到主程序同级目录
+
+3、使用java命令启动主程序示例：
+
 ``` bash
-nohup java -jar mqr.jar > mqr.log 2>&1 &
+java -jar mqr-rest-xxx.jar
+```
+
+如果想Linux后台静默运行，并输出日志，示例：
+``` bash
+nohup java -jar mqr-rest-xxx.jar > mqr.log 2>&1 &
 ```
 
 ## 控制页面

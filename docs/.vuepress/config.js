@@ -5,7 +5,8 @@ module.exports = {
         nav: [
             { text: '主程序', link: '/guide/' },
             { text: '插件开发', link: '/plugin/' },
-            { text: '源代码', link: 'https://gitee.com/molicloud/mqr', target:'_blank' }
+            { text: 'GitHub', link: 'https://github.com/xggz/mqr', target:'_blank' },
+            { text: '论坛', link: 'https://bbs.molicloud.com', target:'_blank' }
         ],
         sidebar: [
             {
@@ -18,16 +19,16 @@ module.exports = {
                         path: '/guide/'
                     },
                     {
-                        title: '下载运行',
-                        path: '/guide/download'
-                    },
-                    {
                         title: '目录结构',
                         path: '/guide/directory-structure'
                     },
                     {
-                        title: '开发运行',
+                        title: '快速上手',
                         path: '/guide/get-started'
+                    },
+                    {
+                        title: '打包程序',
+                        path: '/guide/download'
                     }
                 ]
             },
