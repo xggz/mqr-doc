@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "茉莉QQ机器人文档",
   "main": "index.js",
-  "repository": "https://gitee.com/molicloud/mqr",
+  "repository": "https://github.com/xggz/mqr",
   "author": "冬天的秘密",
   "license": "AGPL-3.0",
   "devDependencies": {
