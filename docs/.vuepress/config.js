@@ -46,6 +46,18 @@ module.exports = {
                         path: '/plugin/system'
                     },
                     {
+                        title: '插件钩子',
+                        path: '/plugin/phook'
+                    },
+                    {
+                        title: '插件任务调度',
+                        path: '/plugin/pjob'
+                    },
+                    {
+                        title: '插件执行器抽象类',
+                        path: '/plugin/abstract'
+                    },
+                    {
                         title: '插件示例',
                         path: '/plugin/examples'
                     }

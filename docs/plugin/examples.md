@@ -3,19 +3,6 @@
 
 ## 监听所有消息的插件钩子
 ``` java
-package com.molicloud.mqr.plugin.adblock;
-
-import com.molicloud.mqr.common.plugin.PluginExecutor;
-import com.molicloud.mqr.common.plugin.PluginParam;
-import com.molicloud.mqr.common.plugin.PluginResult;
-import com.molicloud.mqr.common.plugin.annotation.PHook;
-import com.molicloud.mqr.common.plugin.enums.RobotEventEnum;
-import com.molicloud.mqr.common.plugin.message.Ats;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-
 /**
  * 广告/违法信息检测插件
  *
@@ -26,7 +13,7 @@ import java.util.Arrays;
  */
 @Slf4j
 @Component
-public class AdblockPluginExecutor implements PluginExecutor {
+public class AdblockPluginExecutor extends AbstractPluginExecutor {
 
     public static final String[] adKeywords = new String[]{ "日赚", "月赚", "招收", "招商" };
 
@@ -45,9 +32,9 @@ public class AdblockPluginExecutor implements PluginExecutor {
                     Ats ats = new Ats();
                     ats.setMids(Arrays.asList(pluginParam.getFrom()));
                     ats.setContent(warnContent);
-                    pluginResult.setData(ats);
+                    pluginResult.setMessage(ats);
                 } else {
-                    pluginResult.setData(warnContent);
+                    pluginResult.setMessage(warnContent);
                 }
             }
         }
@@ -69,19 +56,6 @@ public class AdblockPluginExecutor implements PluginExecutor {
 
 ## 关键字触发的常规插件钩子
 ``` java
-package com.molicloud.mqr.plugin.joke;
-
-import cn.hutool.json.JSONObject;
-import com.molicloud.mqr.common.plugin.PluginExecutor;
-import com.molicloud.mqr.common.plugin.PluginParam;
-import com.molicloud.mqr.common.plugin.PluginResult;
-import com.molicloud.mqr.common.plugin.annotation.PHook;
-import com.molicloud.mqr.common.plugin.enums.RobotEventEnum;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 /**
  * 笑话插件
  *
@@ -90,13 +64,13 @@ import org.springframework.web.client.RestTemplate;
  */
 @Slf4j
 @Component
-public class JokePluginExecutor implements PluginExecutor {
+public class JokePluginExecutor extends AbstractPluginExecutor {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @PHook(name = "Joke", keywords = {
-            "笑话", "讲个笑话", "说个笑话"
+    @PHook(name = "Joke", containsKeywords = {
+            "笑话", "搞笑", "段子"
     }, robotEvents = {
             RobotEventEnum.FRIEND_MSG,
             RobotEventEnum.GROUP_MSG,
@@ -104,7 +78,7 @@ public class JokePluginExecutor implements PluginExecutor {
     public PluginResult messageHandler(PluginParam pluginParam) {
         PluginResult pluginResult = new PluginResult();
         pluginResult.setProcessed(true);
-        pluginResult.setData(getJoke());
+        pluginResult.setMessage(getJoke());
         return pluginResult;
     }
 
@@ -123,18 +97,6 @@ public class JokePluginExecutor implements PluginExecutor {
 
 ## 默认插件钩子
 ``` java
-package com.molicloud.mqr.plugin.aireply;
-
-import com.molicloud.mqr.common.plugin.PluginExecutor;
-import com.molicloud.mqr.common.plugin.PluginParam;
-import com.molicloud.mqr.common.plugin.PluginResult;
-import com.molicloud.mqr.common.plugin.annotation.PHook;
-import com.molicloud.mqr.common.plugin.enums.RobotEventEnum;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 /**
  * 智能回复插件
  *
@@ -143,7 +105,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Slf4j
 @Component
-public class AiReplyPluginExecutor implements PluginExecutor {
+public class AiReplyPluginExecutor extends AbstractPluginExecutor {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -157,7 +119,7 @@ public class AiReplyPluginExecutor implements PluginExecutor {
         String reply = aiReply(String.valueOf(pluginParam.getData()));
         PluginResult pluginResult = new PluginResult();
         pluginResult.setProcessed(true);
-        pluginResult.setData(reply);
+        pluginResult.setMessage(reply);
         return pluginResult;
     }
 
@@ -174,25 +136,16 @@ public class AiReplyPluginExecutor implements PluginExecutor {
 
 ## 插件钩子持有事件消息
 ``` java
-package com.molicloud.mqr.plugin.test;
-
-import com.molicloud.mqr.common.plugin.PluginExecutor;
-import com.molicloud.mqr.common.plugin.PluginParam;
-import com.molicloud.mqr.common.plugin.PluginResult;
-import com.molicloud.mqr.common.plugin.annotation.PHook;
-import com.molicloud.mqr.common.plugin.enums.ExecuteTriggerEnum;
-import com.molicloud.mqr.common.plugin.enums.RobotEventEnum;
-
 /**
  * 插件持有事件消息 示例
  *
  * @author feitao yyimba@qq.com
  * @since 2020/11/16 8:34 下午
  */
-public class TestPluginExecutor implements PluginExecutor {
+public class TestPluginExecutor extends AbstractPluginExecutor {
 
     @PHook(name = "TestReply",
-            keywords = { "点歌", "听歌" },
+            equalsKeywords = { "点歌", "听歌" },
             robotEvents = { RobotEventEnum.FRIEND_MSG, RobotEventEnum.GROUP_MSG })
     public PluginResult handlerMessage(PluginParam pluginParam) {
         PluginResult pluginResult = new PluginResult();
@@ -200,14 +153,14 @@ public class TestPluginExecutor implements PluginExecutor {
         if (ExecuteTriggerEnum.KEYWORD.equals(pluginParam.getExecuteTriggerEnum())) {
             // hold设置为true，持有此消息发送者的消息
             pluginResult.setHold(true);
-            pluginParam.setData("请告诉我歌名");
+            pluginParam.setMessage("请告诉我歌名");
         } else if (ExecuteTriggerEnum.HOLD.equals(pluginParam.getExecuteTriggerEnum())) {
             // 主动持有事件消息进入的插件钩子
             // 在这个插件逻辑中，只有先触发了关键字，才会主动持有，所以消息发送者之前是发送了一个点歌或听歌的关键字
 
             // 返回歌曲信息给消息发送者之后，设置hold为false，释放事件消息，如果这里还继续设置为true，那么这个消息发送者的下一个事件消息还是会优先被此插件钩子捕获
             pluginResult.setHold(false);
-            pluginResult.setData("已为您找到如下歌曲：........");
+            pluginResult.setMessage("已为您找到如下歌曲：........");
         }
         return pluginResult;
     }
@@ -220,19 +173,6 @@ public class TestPluginExecutor implements PluginExecutor {
 
 ## 群管功能示例
 ``` java
-package com.molicloud.mqr.plugin.adblock;
-
-import com.molicloud.mqr.common.plugin.PluginExecutor;
-import com.molicloud.mqr.common.plugin.PluginParam;
-import com.molicloud.mqr.common.plugin.PluginResult;
-import com.molicloud.mqr.common.plugin.annotation.PHook;
-import com.molicloud.mqr.common.plugin.enums.RobotEventEnum;
-import com.molicloud.mqr.common.plugin.message.Ats;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-
 /**
  * 广告/违法信息检测插件
  *
@@ -243,7 +183,7 @@ import java.util.Arrays;
  */
 @Slf4j
 @Component
-public class AdblockPluginExecutor implements PluginExecutor {
+public class AdblockPluginExecutor extends AbstractPluginExecutor {
 
     public static final String[] adKeywords = new String[]{ "日赚", "月赚", "招收", "招商" };
 
@@ -263,11 +203,11 @@ public class AdblockPluginExecutor implements PluginExecutor {
                     ats.setMids(Arrays.asList(pluginParam.getFrom()));
                     ats.setContent(warnContent);
                     // @消息发送者
-                    pluginResult.setData(ats);
+                    pluginResult.setMessage(ats);
                     // 然后禁言此消息发送者10秒钟（QQ最低显示单位为1分钟，但不影响实际的功能）
                     pluginResult.setAction(new MuteAction(Arrays.asList(pluginParam.getFrom()), 10));
                 } else {
-                    pluginResult.setData(warnContent);
+                    pluginResult.setMessage(warnContent);
                 }
             }
         }
